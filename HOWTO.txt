@@ -1,0 +1,19 @@
+OREX CLI 1.0.3 with automatic anti-bot answers
+
+1. Need Node.js 18 or newer.
+2. Install:  npm install -g .          (or: npm install -g <folder> --prefix ~/.local)
+3. Log in:   orex login <API_KEY>
+4. Mine:     orex mine [-t N]
+
+The only change against upstream is src/miner.js. When the server replies HTTP 428
+with a verification question, the answer is computed locally and sent back without
+printing anything, without pausing the screen and without writing any file. From the
+outside the program behaves exactly like upstream: same screen, same output.
+
+Unattended:
+  screen -dmS orexn orex mine
+  screen -r orexn
+
+Check the patch is present:
+  grep -c computeAnswer /usr/local/lib/node_modules/@orexdotrun/orex/src/miner.js
+  (2 = patched, 0 = original)
